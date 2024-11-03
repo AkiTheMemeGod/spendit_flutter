@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Mylisttile extends StatelessWidget {
   final String title;
@@ -16,20 +17,51 @@ class Mylisttile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      endActionPane: ActionPane(motion: const StretchMotion(), children: [
-        SlidableAction(
-          onPressed: onedit,
-          icon: Icons.edit,
+    return Padding(
+      padding: const EdgeInsets.only(left: 25.0, right: 25, top: 25),
+      child: Slidable(
+        endActionPane: ActionPane(motion: const StretchMotion(), children: [
+          CustomSlidableAction(
+            onPressed: onedit,
+            backgroundColor: Colors.grey,
+            foregroundColor: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            child: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+          ),
+          CustomSlidableAction(
+            onPressed: ondelete,
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          )
+        ]),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.breeSerif(color: Colors.white),
+                  ),
+                  Text(trailing,
+                      style: GoogleFonts.breeSerif(color: Colors.white)),
+                ]),
+          ),
         ),
-        SlidableAction(
-          onPressed: ondelete,
-          icon: Icons.delete,
-        )
-      ]),
-      child: ListTile(
-        title: Text(title),
-        trailing: Text(trailing),
       ),
     );
   }

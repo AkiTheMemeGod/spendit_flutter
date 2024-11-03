@@ -10,3 +10,10 @@ String formatAmount(double amount) {
       NumberFormat.currency(locale: "HI", symbol: "₹", decimalDigits: 2);
   return format.format(amount);
 }
+
+int calccurrentmonth(
+    int startyear, int startmonth, int currentyear, int currentmonth) {
+  int monthcount =
+      (startyear - currentyear) * 12 + currentmonth - startmonth + 1;
+  return monthcount;
+}

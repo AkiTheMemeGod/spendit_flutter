@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spendit/auth/auth_service.dart';
 import 'package:spendit/bar_graph/bar_graph.dart';
 import 'package:spendit/comps/mylisttile.dart';
 import 'package:spendit/database/expense_database.dart';
@@ -14,6 +15,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final AuthService _authService = AuthService();
+
   TextEditingController name = TextEditingController();
   TextEditingController amt = TextEditingController();
 
@@ -101,6 +104,10 @@ class _HomepageState extends State<Homepage> {
           calccurrentmonth(startyear, startmonth, currentyear, currentmonth);
 
       return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: _authService.signout, icon: Icon(Icons.logout)),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: openNewExpenseBox,
@@ -177,7 +184,7 @@ class _HomepageState extends State<Homepage> {
               date: DateTime.now());
 
           await context.read<ExpenseDatabase>().createNewExpense(newexpense);
-
+          refreshgraphdata();
           name.clear();
           amt.clear();
         }
@@ -204,6 +211,7 @@ class _HomepageState extends State<Homepage> {
           await context
               .read<ExpenseDatabase>()
               .update(existingId, updatedExpense);
+          refreshgraphdata();
         }
       },
       child: Text("Update"),
@@ -216,6 +224,7 @@ class _HomepageState extends State<Homepage> {
         Navigator.pop(context);
 
         await context.read<ExpenseDatabase>().delete(id);
+        refreshgraphdata();
       },
       child: Text("Delete"),
     );
